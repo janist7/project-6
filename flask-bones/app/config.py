@@ -6,7 +6,6 @@ class base_config(object):
     SITE_NAME = 'Flask Bones'
 
     SERVER_NAME = os.environ['SERVER_NAME']
-    SECRET_KEY = os.environ['SECRET_KEY']
 
     MAIL_SERVER = os.environ['MAILCATCHER_PORT_1025_TCP_ADDR']
     MAIL_PORT = os.environ['MAILCATCHER_PORT_1025_TCP_PORT']
@@ -34,10 +33,12 @@ class base_config(object):
         POSTGRES_DB
     )
 
-    MAIL_SERVER = os.environ['MAIL_SERVER']
-    MAIL_PORT = os.environ['MAIL_PORT']
-    MAIL_USE_SSL = False
+    DEBUG = True
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ['MAIL_USERNAME']
+    MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 
     SUPPORTED_LOCALES = ['en']
 

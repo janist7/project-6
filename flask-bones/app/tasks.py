@@ -9,7 +9,7 @@ from flask_mail import Message
 def send_registration_email(user, token):
     msg = Message(
         'User Registration',
-        sender='janis.tidrikis@delfi.lv',
+        sender='no-reply@recipes.com',
         recipients=[user.email]
     )
     msg.body = render_template(
