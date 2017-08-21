@@ -37,3 +37,7 @@ apt-get install -y ruby2.3 ruby2.3-dev libsqlite3-dev
 gem install mailcatcher
 echo "source /vagrant/*/.env" >> ~/.profile
 echo "export $(cut -d= -f1 /vagrant/*/.env)" >> ~/.profile
+echo "cd /vagrant/*/"
+echo "make init"
+echo "make assets"
+echo "make db"
