@@ -35,9 +35,7 @@ pip2 install requests
 apt-add-repository ppa:brightbox/ruby-ng
 apt-get install -y ruby2.3 ruby2.3-dev libsqlite3-dev
 gem install mailcatcher
-echo "source /vagrant/*/.env" >> ~/.profile
-echo "export $(cut -d= -f1 /vagrant/*/.env)" >> ~/.profile
-echo "cd /vagrant/*/"
-echo "make init"
-echo "make assets"
-echo "make db"
+cd /vagrant/*/
+make init
+make assets
+make clean
