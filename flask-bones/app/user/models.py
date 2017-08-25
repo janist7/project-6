@@ -8,7 +8,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(128), nullable=False, unique=True)
-    pw_hash = db.Column(db.String(60), nullable=False)
+    pw_hash = db.Column(db.String(60))
     created_ts = db.Column(db.DateTime(timezone=True),
             server_default=db.func.current_timestamp(),)
     updated_ts = db.Column(db.DateTime(timezone=True),
@@ -17,10 +17,13 @@ class User(CRUDMixin, UserMixin, db.Model):
     active = db.Column(db.Boolean())
     is_admin = db.Column(db.Boolean())
 
-    def __init__(self, username, email, password, remote_addr, active=False, is_admin=False):
+    def __init__(self, username, email, remote_addr, password=None, active=False, is_admin=False):
         self.username = username
         self.email = email
-        self.set_password(password)
+        if password != None:
+            self.set_password(password)
+        else:
+            self.pw_hash = None
         self.created_ts = datetime.datetime.now()
         self.remote_addr = remote_addr
         self.active = active

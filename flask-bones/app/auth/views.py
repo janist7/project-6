@@ -3,6 +3,7 @@ from flask import (
 )
 from flask_babel import gettext
 from flask_login import login_user, login_required, logout_user
+from flask import session as login_session
 from itsdangerous import URLSafeSerializer, BadSignature
 from app.extensions import lm
 from app.tasks import send_registration_email
@@ -10,6 +11,7 @@ from app.user.models import User
 from app.user.forms import RegisterUserForm
 from .forms import LoginForm
 from ..auth import auth
+import httplib2
 
 
 @lm.user_loader
@@ -33,13 +35,44 @@ def login():
         return redirect(request.args.get('next') or url_for('index'))
     return render_template('login.html', form=form)
 
+@auth.route('/oauth', methods=['POST'])
+def oauth():
+    name = request.data
+    flash(
+            gettext(
+                'You were logged in as {username}'.format(
+                    username=name
+                ),
+            ),
+            'success'
+    )
+    return redirect(request.args.get('next') or url_for('index'))
+
 
 @auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
-    logout_user()
-    flash(gettext('You were logged out'), 'success')
-    return redirect(url_for('.login'))
+    # Disconnect a regular user.
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        logout_user()
+        flash(gettext('You were logged out'), 'success')
+        return redirect(url_for('.login'))
+    # Disconnect a google accaunt user.
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+
+    if result['status'] == '200':
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['provider']
+        logout_user()
+        flash(gettext('Successfully disconnected'), 'success')
+        return redirect(url_for('.login'))
+    else:
+        flash(gettext('Failed to revoke token for given user'), 'error')
+        return redirect(url_for('.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])

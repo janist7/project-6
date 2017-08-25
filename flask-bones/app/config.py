@@ -1,5 +1,5 @@
 import os
-
+import json
 
 class base_config(object):
     """Default configuration options."""

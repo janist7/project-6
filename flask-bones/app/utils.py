@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import flash, request, url_for
+from flask import flash, request, url_for, redirect
 
 
 def flash_errors(form, category='danger'):
@@ -9,7 +9,6 @@ def flash_errors(form, category='danger'):
                 u'%s - %s' % (getattr(form, field).label.text, error),
                 category
             )
-
 
 def url_for_other_page(remove_args=[], **kwargs):
     args = request.args.copy()

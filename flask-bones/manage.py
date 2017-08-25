@@ -31,7 +31,7 @@ manager.add_command('db', MigrateCommand)
 def create_db(num_users=5):
     """Creates database tables and populates them."""
     db.create_all()
-    populate_db(num_users=num_users)
+    #populate_db(num_users=num_users)
 
 
 @manager.command

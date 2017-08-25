@@ -1,10 +1,10 @@
 from flask_wtf import Form
 from flask_babel import gettext
-from wtforms import TextField, PasswordField
+from wtforms import TextField
 from wtforms.validators import DataRequired
 from sqlalchemy import and_
 
-from app.user.models import User
+from app.categories.models import Category
 
 
 class LoginForm(Form):

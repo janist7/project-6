@@ -1,0 +1,45 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}
+    {{ config.SITE_NAME }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+	<div class="row banner main">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			<h1>Categories</h1>
+		</div>
+	</div>
+
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+        {% if current_user.is_authenticated %}
+		<div class="col-md-10 padding-none">
+			<a href="{{url_for('categories.newCategory')}}">
+				<button class="btn btn-default" id="new-restaurant">
+					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add Category
+				</button>
+			</a>
+		</div>
+        {% endif %}
+		<div class="col-md-1"></div>
+	</div>
+	{% for category in categories %}
+		<a href = "{{url_for('recipes.showRecipe', category_id = category.id)}}">
+			<div class="row">
+				<div class="col-md-1"></div>
+					<div class="col-md-10 restaurant-list">
+						<h3>{{category.name}}</h3>
+					</div>
+				<div class="col-md-1"></div>
+			</div>
+		</a>
+	{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

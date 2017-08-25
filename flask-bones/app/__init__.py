@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, request
+from flask import Flask, g, render_template, request, redirect, url_for
 from app.database import db
 from app.extensions import (
     lm, api, travis, mail, heroku, bcrypt, celery, babel
@@ -7,6 +7,8 @@ from app.assets import assets
 import app.utils as utils
 from app import config
 from app.user import user
+from app.categories import categories
+from app.recipes import recipes
 from app.auth import auth
 import time
 import sys
@@ -16,6 +18,9 @@ import os.path
 def create_app(config=config.base_config):
     app = Flask(__name__)
     app.config.from_object(config)
+
+    reload(sys)
+    sys.setdefaultencoding('utf8')
 
     install_secret_key(app)
     register_extensions(app)
@@ -35,7 +40,7 @@ def create_app(config=config.base_config):
 
     @app.route('/', methods=['GET'])
     def index():
-        return render_template('index.html')
+        return redirect(url_for('categories.showCategories'))
 
     return app
 
@@ -56,6 +61,8 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(user, url_prefix='/user')
     app.register_blueprint(auth)
+    app.register_blueprint(categories)
+    app.register_blueprint(recipes)
 
 
 def register_errorhandlers(app):

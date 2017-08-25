@@ -1,9 +1,10 @@
+{% macro facebook_login_script() %}
 <!--FACEBOOK SIGN IN -->
 <script>
   window.fbAsyncInit = function() {
   FB.init({
     appId      : '846524132078825',
-    cookie     : true,  // enable cookies to allow the server to access 
+    cookie     : true,  // enable cookies to allow the server to access
                         // the session
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.8' // use version 2.8
@@ -41,23 +42,25 @@
          setTimeout(function() {
           window.location.href = "/restaurant";
          }, 4000);
-          
+
 
       } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }
 
       }
-      
+
   });
 
 
     });
   }
 </script>
-       
+{% endmacro %}
+{% macro facebook_login_button() %}
 <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
 <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
 
 </fb:login-button>
 <!--END FACEBOOK SIGN IN -->
+{% endmacro %}
