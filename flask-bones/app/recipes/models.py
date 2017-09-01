@@ -16,13 +16,13 @@ class Recipe(CRUDMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref='recipe')
 
-    def __init__(self, name, user, category, description, image_url):
+    def __init__(self, name, user_id, category_id, description, image_url):
         self.name = name
         self.description = description
         self.image_url = image_url
         self.created_ts = datetime.datetime.now()
-        self.user = user
-        self.category = category
+        self.user_id = user_id
+        self.category_id = category_id
 
     def __repr__(self):
         return '<Recipe %s>' % self.name
@@ -36,3 +36,14 @@ class Recipe(CRUDMixin, db.Model):
             'image': self.image_url,
             'id': self.id
         }
+
+    @classmethod
+    def getRecipeList(self, category_id):
+        list = self.query.filter_by(category_id=category_id)
+        return list
+
+    @classmethod
+    def getCurrentRecipe(self, recipe_id):
+        recipe = self.query.filter_by(id=recipe_id).one()
+        return recipe
+

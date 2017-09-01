@@ -1,20 +1,20 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import TextField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from app.user.models import User
 
 
-class UserForm(Form):
-    username = TextField(
+class UserForm(FlaskForm):
+    username = StringField(
         gettext('Username'), validators=[DataRequired(), Length(min=2, max=20)]
     )
-    email = TextField(
+    email = StringField(
         gettext('Email'), validators=[Email(), DataRequired(), Length(max=128)]
     )
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
 
 
 class RegisterUserForm(UserForm):
@@ -37,7 +37,7 @@ class RegisterUserForm(UserForm):
     )
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
         self.user = None
 
     def validate(self):

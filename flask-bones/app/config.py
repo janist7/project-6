@@ -32,6 +32,7 @@ class base_config(object):
         POSTGRES_PORT,
         POSTGRES_DB
     )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     DEBUG = True
     MAIL_SERVER = 'smtp.gmail.com'
@@ -41,13 +42,14 @@ class base_config(object):
     MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
 
     SUPPORTED_LOCALES = ['en']
-
+    WTF_CSRF_CHECK_DEFAULT = True
+    WTF_CSRF_ENABLED = True
+    WTF_CSRF_METHODS = {'POST', 'PUT', 'PATCH', 'DELETE'}
 
 class dev_config(base_config):
     """Development configuration options."""
     DEBUG = True
     ASSETS_DEBUG = True
-    WTF_CSRF_ENABLED = False
 
 
 class test_config(base_config):

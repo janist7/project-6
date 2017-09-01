@@ -27,3 +27,6 @@ assets = Environment()
 
 from flask_babel import Babel
 babel = Babel()
+
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect()

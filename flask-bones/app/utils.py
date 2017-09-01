@@ -1,5 +1,6 @@
 from datetime import datetime
-from flask import flash, request, url_for, redirect
+from flask import flash, request, url_for, redirect, session
+from flask_babel import gettext
 
 
 def flash_errors(form, category='danger'):
@@ -9,6 +10,17 @@ def flash_errors(form, category='danger'):
                 u'%s - %s' % (getattr(form, field).label.text, error),
                 category
             )
+
+def babel_flash_message(text, data=""):
+    flash(
+            gettext(
+                text.format(
+                    data=data
+                ),
+            ),
+            'success'
+    )
+    return True
 
 def url_for_other_page(remove_args=[], **kwargs):
     args = request.args.copy()

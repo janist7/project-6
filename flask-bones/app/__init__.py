@@ -1,7 +1,7 @@
 from flask import Flask, g, render_template, request, redirect, url_for
 from app.database import db
 from app.extensions import (
-    lm, api, travis, mail, heroku, bcrypt, celery, babel
+    lm, api, travis, mail, heroku, bcrypt, celery, babel, csrf
 )
 from app.assets import assets
 import app.utils as utils
@@ -56,6 +56,7 @@ def register_extensions(app):
     celery.config_from_object(app.config)
     assets.init_app(app)
     babel.init_app(app)
+    csrf.init_app(app)
 
 
 def register_blueprints(app):
@@ -67,9 +68,9 @@ def register_blueprints(app):
 
 def register_errorhandlers(app):
     def render_error(e):
-        return render_template('errors/%s.html' % e.code), e.code
+        return render_template('errors/%s.html' % e.code, reason=e.description), e.code
 
-    for e in [401, 404, 500]:
+    for e in [400, 401, 404, 500]:
         app.errorhandler(e)(render_error)
 
 
@@ -89,6 +90,7 @@ def install_secret_key(app, filename='secret_key'):
     filename = os.path.join(app.instance_path, filename)
     try:
         app.config['SECRET_KEY'] = open(filename, 'rb').read()
+        app.config['WTF_CSRF_SECRET_KEY'] = open(filename, 'rb').read()
     except IOError:
         print 'Error: No secret key. Create it with:'
         if not os.path.isdir(os.path.dirname(filename)):

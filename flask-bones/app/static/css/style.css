@@ -14,3 +14,24 @@ body {
     top: -12px;
     margin-left: 10px;
 }
+
+.padding-top {
+    padding-top: 1em;
+}
+
+.padding-bottom{
+    padding-bottom: 1em;
+}
+
+.glyphicon {
+    padding-right: 0.7em;
+    vertical-align: text-top;
+}
+
+.btn-google {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 0.1em;
+    height: 31px;
+}

@@ -1,37 +1,55 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import TextField
+from wtforms import StringField
 from wtforms.validators import DataRequired
-from sqlalchemy import and_
 
 from app.categories.models import Category
 
 
-class LoginForm(Form):
-    username = TextField(gettext('Username'), validators=[DataRequired()])
-    password = PasswordField(gettext('Password'), validators=[DataRequired()])
+class NewCategory(FlaskForm):
+    name = StringField(gettext('Category name:'), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-        self.user = None
+        FlaskForm.__init__(self, *args, **kwargs)
 
     def validate(self):
-        rv = Form.validate(self)
+        rv = FlaskForm.validate(self)
         if not rv:
             return False
 
-        self.user = User.query.filter(and_(User.username==self.username.data,User.pw_hash!=None)).first()
-
-        if not self.user:
-            self.username.errors.append(gettext('Unknown username'))
+        name = Category.query.filter_by(name=self.name.data).first()
+        if name:
+            self.name.errors.append(gettext('Category with this name already exists!'))
             return False
 
-        if not self.user.check_password(self.password.data):
-            self.password.errors.append(gettext('Invalid password'))
+        return True
+
+class EditCategory(FlaskForm):
+    name = StringField(gettext('Category name:'), validators=[DataRequired()])
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
             return False
 
-        if not self.user.active:
-            self.username.errors.append(gettext('User not activated'))
+        name = Category.query.filter_by(name=self.name.data).first()
+        if name:
+            self.name.errors.append(gettext('Category with this name already exists!'))
+            return False
+
+        return True
+
+class DeleteCategory(FlaskForm):
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
             return False
 
         return True

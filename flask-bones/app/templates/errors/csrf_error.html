@@ -1,0 +1,15 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}{% trans %}Bad Request{% endtrans %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Bad Request{% endtrans %}</h1>
+    <p>{% trans %}{{ reason }}{% endtrans %}<p/>
+    <p><a href="{{ url_for('index') }}">{% trans %}Go somewhere nice{% endtrans %}</a></p>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

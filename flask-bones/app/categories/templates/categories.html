@@ -20,7 +20,7 @@
         {% if current_user.is_authenticated %}
 		<div class="col-md-10 padding-none">
 			<a href="{{url_for('categories.newCategory')}}">
-				<button class="btn btn-default" id="new-restaurant">
+				<button class="btn btn-default" id="new-category">
 					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add Category
 				</button>
 			</a>
@@ -32,7 +32,7 @@
 		<a href = "{{url_for('recipes.showRecipe', category_id = category.id)}}">
 			<div class="row">
 				<div class="col-md-1"></div>
-					<div class="col-md-10 restaurant-list">
+					<div class="col-md-10 category-list">
 						<h3>{{category.name}}</h3>
 					</div>
 				<div class="col-md-1"></div>

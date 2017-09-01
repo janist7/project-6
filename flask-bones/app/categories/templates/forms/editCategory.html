@@ -1,0 +1,38 @@
+{% from 'components/field.html' import render_field %}
+{% extends "layouts/main.html" %}
+
+{% block title %}
+    {{ config.SITE_NAME }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+    {% if current_user.is_authenticated and current_user == creator %}
+        <form method="POST" action="{{ request.url }}">
+            {{ form.csrf_token }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Edit {{category.name}}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {{ render_field(form.name) }}
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-default">
+                        <i class="icon-ok-sign"></i> {% trans %}Update{% endtrans %}
+                    </button>
+                    <a class="btn btn-default" href = '{{url_for('recipes.showRecipe',category_id=category_id)}}'>
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

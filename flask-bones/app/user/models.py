@@ -39,15 +39,15 @@ class User(CRUDMixin, UserMixin, db.Model):
         return bcrypt.check_password_hash(self.pw_hash, password)
 
     @classmethod
-    def stats(cls):
+    def stats(self):
         active_users = cache.get('active_users')
         if not active_users:
-            active_users = cls.query.filter_by(active=True).count()
+            active_users = self.query.filter_by(active=True).count()
             cache.set('active_users', active_users)
 
         inactive_users = cache.get('inactive_users')
         if not inactive_users:
-            inactive_users = cls.query.filter_by(active=False).count()
+            inactive_users = self.query.filter_by(active=False).count()
             cache.set('inactive_users', inactive_users)
 
         return {
@@ -55,3 +55,16 @@ class User(CRUDMixin, UserMixin, db.Model):
             'active': active_users,
             'inactive': inactive_users
         }
+
+    @classmethod
+    def getUserInfo(self, user_id):
+        user = self.query.filter_by(id=user_id).first_or_404()
+        return user
+
+    @classmethod
+    def getUserID(self, email):
+        try:
+            user = self.query.filter_by(email=email).one()
+            return user.id
+        except:
+            return None

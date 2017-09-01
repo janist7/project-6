@@ -1,4 +1,5 @@
 from app.database import db, CRUDMixin
+from sqlalchemy import asc
 import datetime
 
 
@@ -27,3 +28,13 @@ class Category(CRUDMixin, db.Model):
             'name': self.name,
             'id': self.id,
         }
+
+    @classmethod
+    def getCategories(cls):
+        list = cls.query.order_by(asc(cls.name))
+        return list
+
+    @classmethod
+    def getCurrentCategory(cls, category_id):
+        category = cls.query.filter_by(id=category_id).one()
+        return category

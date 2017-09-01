@@ -1,0 +1,29 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}
+    {{ config.SITE_NAME }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+{% if current_user.is_authenticated and current_user == creator %}
+<h2> Are you sure you want to delete {{category.name}}? </h2>
+<div class="padding-bottom"></div>
+
+<form method="POST" action="{{ request.url }}">
+    {{ form.csrf_token }}
+	<button type="submit" class="btn btn-default delete" id="submit" type="submit">
+	   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+       Delete
+    </button>
+    <a class="btn btn-default" href = '{{url_for('recipes.showRecipe',category_id=category_id)}}'>
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Cancel
+    </a>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
