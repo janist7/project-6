@@ -4,6 +4,7 @@ apt-get -qqy install memcached
 apt-get -qqy install redis-server
 apt-get -qqy install make
 apt-get -qqy install zip
+apt-get -qqy install git
 apt-get -qqy install unzip
 apt-get -qqy install postgresql
 apt-get -qqy install pgadmin3
