@@ -26,7 +26,7 @@ export MAIL_PASSWORD= _______ > /dev/null
 ```
 Last 2 rows are empty as they require a real gmail adress with a app password.
 
-Postgresql database password needs to be set with sudo ```-u postgres psql``` then ```\password postgres``` to postgres
+Postgresql database password needs to be set with ```sudo -u postgres psql``` then ```\password postgres``` to postgres
 
 ## Instalation and usage
 

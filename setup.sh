@@ -36,6 +36,7 @@ apt-add-repository ppa:brightbox/ruby-ng
 apt-get install -y ruby2.3 ruby2.3-dev libsqlite3-dev
 gem install mailcatcher
 cd /vagrant/*/
+ln -s /usr/bin/nodejs /usr/bin/node
 make init
 make assets
 make clean
