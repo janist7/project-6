@@ -26,33 +26,29 @@ export MAIL_PASSWORD= _______ > /dev/null
 ```
 Last 2 rows are empty as they require a real gmail adress with a app password.
 
+Postgresql database password needs to be set with sudo ```-u postgres psql``` then ```\password postgres``` to postgres
+
 ## Instalation and usage
 
-1. Install Javascript dependencies:
-
-    ```
-    $ make assets
-    ```
-
-2. Setup database and seed with test data:
+1. Setup database and seed with test data:
 
     ```
     $ make db
     ```
 
-3. Run a local SMTP server:
+2. Run a local SMTP server:
 
     ```
     $ mailcatcher
     ```
 
-4. Run the celery worker: (**note** - Celery needs to be running in seperate windows from server)
+3. Run the celery worker: (**note** - Celery needs to be running in seperate windows from server)
 
     ```
     $ make celery
     ```
 
-5. Run local server:
+4. Run local server:
 
     ```
     $ make server
