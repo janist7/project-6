@@ -21,6 +21,7 @@ app = create_app(config=config.dev_config)
 migrate = Migrate(app, db)
 
 manager = Manager(app)
+# Runs server from makefile command
 manager.add_command('runserver', Server())
 manager.add_command('shell', Shell(make_context=_make_context))
 manager.add_command('db', MigrateCommand)

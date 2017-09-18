@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {%- endassets %}
     <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+    <!-- Sets csrf token use in headers as default for all ajax requests -->
     <script type="text/javascript">
     var csrf_token = "{{ csrf_token() }}";
     $.ajaxSetup({

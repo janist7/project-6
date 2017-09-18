@@ -20,7 +20,9 @@ class LoginForm(FlaskForm):
         if not rv:
             return False
 
-        self.user = User.query.filter(and_(User.username==self.username.data,User.pw_hash!=None)).first()
+        self.user = User.query.filter(
+            and_(User.username == self.username.data, User.pw_hash is not None)
+        ).first()
 
         if not self.user:
             self.username.errors.append(gettext('Unknown username'))

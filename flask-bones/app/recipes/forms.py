@@ -8,7 +8,8 @@ from app.recipes.models import Recipe
 
 class NewRecipe(FlaskForm):
     name = StringField(gettext('Recipe name:'), validators=[DataRequired()])
-    description = StringField(gettext('Recipe Description:'), validators=[DataRequired()])
+    description = StringField(gettext('Recipe Description:'),
+                              validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
@@ -19,10 +20,12 @@ class NewRecipe(FlaskForm):
             return False
 
         return True
+
 
 class EditRecipe(FlaskForm):
     name = StringField(gettext('Recipe name:'), validators=[DataRequired()])
-    description = StringField(gettext('Recipe Description:'), validators=[DataRequired()])
+    description = StringField(gettext('Recipe Description:'),
+                              validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
@@ -33,6 +36,7 @@ class EditRecipe(FlaskForm):
             return False
 
         return True
+
 
 class DeleteRecipe(FlaskForm):
 

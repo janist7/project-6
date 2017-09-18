@@ -11,16 +11,18 @@ def flash_errors(form, category='danger'):
                 category
             )
 
+
 def babel_flash_message(text, data=""):
     flash(
-            gettext(
-                text.format(
-                    data=data
-                ),
+        gettext(
+            text.format(
+                data=data
             ),
-            'success'
+        ),
+        'success'
     )
     return True
+
 
 def url_for_other_page(remove_args=[], **kwargs):
     args = request.args.copy()

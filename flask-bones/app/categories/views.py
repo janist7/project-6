@@ -1,3 +1,5 @@
+""" All Category related views """
+
 from flask import (
     current_app, request, redirect, url_for, render_template, flash, abort,
 )
@@ -13,6 +15,7 @@ from ..categories import categories, controller
 def showCategories():
     return render_template('categories.html', categories=controller.categoryList())
 
+
 @categories.route('/categories/new/', methods=['GET', 'POST'])
 @login_required
 def newCategory():
@@ -26,6 +29,7 @@ def newCategory():
         return redirect(url_for('categories.showCategories'))
     else:
         return render_template('forms/newCategory.html', form=form)
+
 
 @categories.route('/categories/<int:category_id>/edit/', methods=['GET', 'POST'])
 @login_required
@@ -45,7 +49,8 @@ def editCategory(category_id):
             babel_flash_message('Category "{data}" successfully edited', form.data['name'])
             return redirect(url_for('categories.showCategories'))
     else:
-        return render_template('forms/editCategory.html', category=editedCategory, creator=creator, category_id=category_id, form=form)
+        return render_template('forms/editCategory.html', category=editedCategory,
+                               creator=creator, category_id=category_id, form=form)
 
 
 # Delete a restaurant
@@ -66,4 +71,5 @@ def deleteCategory(category_id):
         babel_flash_message('Category "{data}" successfully deleted', categoryToDelete.name)
         return redirect(url_for('categories.showCategories', category_id=category_id))
     else:
-        return render_template('forms/deleteCategory.html', category=categoryToDelete, creator=creator, category_id=category_id, form=form)
+        return render_template('forms/deleteCategory.html', category=categoryToDelete,
+                               creator=creator, category_id=category_id, form=form)

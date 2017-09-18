@@ -1,3 +1,5 @@
+""" All Users managment related views """
+
 from flask import request, redirect, url_for, render_template, flash, g
 from flask_babel import gettext
 from flask_login import login_required

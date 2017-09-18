@@ -1,3 +1,5 @@
+### All used extensions ###
+
 from flask_login import LoginManager
 lm = LoginManager()
 

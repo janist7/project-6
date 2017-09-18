@@ -144,7 +144,7 @@ class DataTable(object):
         """Filters the query based on a field & value."""
         if field and value:
             field = getattr(self.model, field)
-            self.query = self.query.filter(field==value)
+            self.query = self.query.filter(field == value)
 
     def search(self, search_query):
         """Filters the query based on a list of fields & search query."""

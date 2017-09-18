@@ -1,6 +1,7 @@
 import os
 import json
 
+
 class base_config(object):
     """Default configuration options."""
     SITE_NAME = 'Flask Bones'
@@ -46,6 +47,8 @@ class base_config(object):
     WTF_CSRF_ENABLED = True
     WTF_CSRF_METHODS = {'POST', 'PUT', 'PATCH', 'DELETE'}
 
+
+# Config used for this project
 class dev_config(base_config):
     """Development configuration options."""
     DEBUG = True

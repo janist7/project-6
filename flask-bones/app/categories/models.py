@@ -7,9 +7,9 @@ class Category(CRUDMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False, unique=True)
     created_ts = db.Column(db.DateTime(timezone=True),
-            server_default=db.func.current_timestamp(),)
+                           server_default=db.func.current_timestamp(),)
     updated_ts = db.Column(db.DateTime(timezone=True),
-            onupdate=db.func.current_timestamp(),)
+                           onupdate=db.func.current_timestamp(),)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref='category')
 

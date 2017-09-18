@@ -1,6 +1,8 @@
-# -- coding: utf-8 --
+""" Google OAuth view """
+
 from flask import (
-    current_app, request, redirect, url_for, render_template, flash, abort, make_response,
+    current_app, request, redirect, url_for, render_template, flash, abort,
+    make_response
 )
 from flask import session as login_session
 from flask_babel import gettext
@@ -20,6 +22,7 @@ import sys
 GOOGLE_CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipes Website"
+
 
 @auth.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -81,11 +84,11 @@ def gconnect():
     # see if user exists, if it doesn't make a new one
     if not user:
         user = User.create(
-            username = data['name'],
-            email = data['email'],
-            remote_addr = request.remote_addr
+            username=data['name'],
+            email=data['email'],
+            remote_addr=request.remote_addr
         )
     else:
         login_user(user)
-
+    # Returns name for flash message
     return data['name']

@@ -1,3 +1,5 @@
+""" All Auhentification related views """
+
 from flask import (
     current_app, request, redirect, url_for, render_template, flash, abort,
 )
@@ -17,9 +19,11 @@ import httplib2
 # Probably should be server side as cookies are not that safe
 # (https://blog.miguelgrinberg.com/post/how-secure-is-the-flask-user-session)
 
+
 @lm.user_loader
 def load_user(id):
     return User.get_by_id(int(id))
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -29,6 +33,7 @@ def login():
         babel_flash_message('You were logged in as {data}', form.user.username)
         return redirect(request.args.get('next') or url_for('index'))
     return render_template('forms/login.html', form=form)
+
 
 @auth.route('/oauth', methods=['POST'])
 def oauth():
@@ -47,7 +52,7 @@ def logout():
         login_session.clear()
         babel_flash_message('You were logged out')
         return redirect(url_for('.login'))
-    # Disconnect a google accaunt user.
+    # Disconnect a google account user.
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
@@ -66,11 +71,13 @@ def logout():
         login_session.clear()
         return redirect(url_for('.login'))
 
+
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterUserForm()
     if form.validate_on_submit():
-        user = controller.createNewUser(form.data['username'], form.data['email'], form.data['password'], request.remote_addr)
+        user = controller.createNewUser(form.data['username'], form.data['email'],
+                                        form.data['password'], request.remote_addr)
         s = URLSafeSerializer(current_app.secret_key)
         token = s.dumps(user.id)
         send_registration_email.delay(user, token)

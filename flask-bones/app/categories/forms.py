@@ -24,6 +24,7 @@ class NewCategory(FlaskForm):
 
         return True
 
+
 class EditCategory(FlaskForm):
     name = StringField(gettext('Category name:'), validators=[DataRequired()])
 
@@ -41,6 +42,7 @@ class EditCategory(FlaskForm):
             return False
 
         return True
+
 
 class DeleteCategory(FlaskForm):
 

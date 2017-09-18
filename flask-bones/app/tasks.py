@@ -5,6 +5,7 @@ from celery.signals import task_postrun
 from flask_mail import Message
 
 
+# Sends registration e-mail
 @celery.task
 def send_registration_email(user, token):
     msg = Message(

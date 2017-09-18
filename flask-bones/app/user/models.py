@@ -10,9 +10,9 @@ class User(CRUDMixin, UserMixin, db.Model):
     email = db.Column(db.String(128), nullable=False, unique=True)
     pw_hash = db.Column(db.String(60))
     created_ts = db.Column(db.DateTime(timezone=True),
-            server_default=db.func.current_timestamp(),)
+                           server_default=db.func.current_timestamp(),)
     updated_ts = db.Column(db.DateTime(timezone=True),
-            onupdate=db.func.current_timestamp(),)
+                           onupdate=db.func.current_timestamp(),)
     remote_addr = db.Column(db.String(20))
     active = db.Column(db.Boolean())
     is_admin = db.Column(db.Boolean())
@@ -20,7 +20,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     def __init__(self, username, email, remote_addr, password=None, active=False, is_admin=False):
         self.username = username
         self.email = email
-        if password != None:
+        if password is not None:
             self.set_password(password)
         else:
             self.pw_hash = None

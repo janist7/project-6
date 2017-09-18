@@ -8,9 +8,9 @@ class Recipe(CRUDMixin, db.Model):
     description = db.Column(db.String(250))
     image_url = db.Column(db.String(250))
     created_ts = db.Column(db.DateTime(timezone=True),
-            server_default=db.func.current_timestamp(),)
+                           server_default=db.func.current_timestamp(),)
     updated_ts = db.Column(db.DateTime(timezone=True),
-            onupdate=db.func.current_timestamp(),)
+                           onupdate=db.func.current_timestamp(),)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', backref='recipe')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -46,4 +46,3 @@ class Recipe(CRUDMixin, db.Model):
     def getCurrentRecipe(self, recipe_id):
         recipe = self.query.filter_by(id=recipe_id).one()
         return recipe
-
