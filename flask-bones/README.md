@@ -1,273 +1,100 @@
-![flasks](https://raw.githubusercontent.com/cburmeister/flask-bones/master/image.jpg)
+# Recipe Website
 
-flask-bones
-===========
+## Description
 
-An example of a large scale Flask application using blueprints and extensions.
+This site is a recipe site that has authentification/authorization and uses CRUD operations to manipulate user added data.
 
-## Setup with Docker
+### Prerequisites
 
-Create an `.env` file:
+Requires vagrant virtual machine
+Requires a client secrets file at flask-bones/client_secrets.json. And changes to data-clientid in app/auth/templates/components/google_login.html
 
+Requires .env file at flask-bones/.env with contents:
 ```
-SECRET_KEY=46-2346-24986-2384632-2039845-24
-SERVER_NAME=$HOST:5000
+export DATABASE_URL=postgresql://$USER@localhost/flask_bones > /dev/null
+export SERVER_NAME=localhost:5000 > /dev/null
+export MAILCATCHER_PORT_1025_TCP_ADDR=0.0.0.0 > /dev/null
+export MAILCATCHER_PORT_1025_TCP_PORT=1025 > /dev/null
+export REDIS_PORT_6379_TCP_ADDR=0.0.0.0 > /dev/null
+export REDIS_PORT_6379_TCP_PORT=6379 > /dev/null
+export MEMCACHED_PORT_11211_TCP_ADDR=0.0.0.0 > /dev/null
+export MEMCACHED_PORT_11211_TCP_PORT=11211 > /dev/null
+export DB_PORT_5432_TCP_ADDR=0.0.0.0 > /dev/null
+export DB_PORT_5432_TCP_PORT=5432 > /dev/null
+export MAIL_USERNAME= _______ > /dev/null
+export MAIL_PASSWORD= _______ > /dev/null
 ```
+Last 2 rows are empty as they require a real gmail adress with a app password.
 
-Let docker do the rest of the work:
+## Instalation and usage
 
-```
-$ docker-compose up -d
-```
-
-Here's a sneak peak at the different services:
-
-```
-$ docker-compose ps
-Name                        Command               State                       Ports
-------------------------------------------------------------------------------------------------------------------
-flaskbones_app_1           make server                      Up      0.0.0.0:5000->5000/tcp
-flaskbones_celery_1        make celery                      Up
-flaskbones_db_1            /docker-entrypoint.sh postgres   Up      0.0.0.0:5432->5432/tcp
-flaskbones_mailcatcher_1   mailcatcher --smtp-ip=0.0. ...   Up      0.0.0.0:1025->1025/tcp, 0.0.0.0:1080->1080/tcp
-flaskbones_memcached_1     /entrypoint.sh memcached         Up      0.0.0.0:11211->11211/tcp
-flaskbones_redis_1         /entrypoint.sh redis-server      Up      0.0.0.0:6379->6379/tcp
-```
-
-## Setup
-
-1. Install required services:
-
-    ```
-    $ brew install memcached
-    $ brew install redis
-    $ brew install postgresql
-    $ gem install mailcatcher
-    ```
-
-2. Install Python packages:
-
-    ```
-    $ make init
-    ```
-
-3. Set necessary environment variables:
-
-    ```
-    $ export SECRET_KEY=46-2346-24986-2384632-2039845-24
-    $ export DATABASE_URL=postgresql://$USER@localhost/flask_bones
-    $ export SERVER_NAME=$HOST:5000
-    ```
-
-4. Install Javascript dependencies:
+1. Install Javascript dependencies:
 
     ```
     $ make assets
     ```
 
-5. Setup database and seed with test data:
+2. Setup database and seed with test data:
 
     ```
     $ make db
     ```
 
-6. Run a local SMTP server:
+3. Run a local SMTP server:
 
     ```
     $ mailcatcher
     ```
 
-7. Run the celery worker:
+4. Run the celery worker: (**note** - Celery needs to be running in seperate windows from server)
 
     ```
     $ make celery
     ```
 
-8. Run local server:
+5. Run local server:
 
     ```
     $ make server
     ```
 
-## Features
+## File structure
 
-1. Caching with Memcached
+Has folowing main folders:
+* **flask-bones** - *Contains project*
+* **i18n** - *Translation file ---Not Used---*
+* **instance** - *Contains secret key file*
+* **migrations** - *---Not Used---*
+* **app** - *Contains all files for the webpage*
+* **auth** - *Contains all views, templates, controllers and forms for login/logout*
+* **categories** - *Contains all views, templates, controllers and forms for Category CRUD operations*
+* **database** - *Contains init file for creating the database*
+* **recipes** - *Contains all views, templates, controllers and forms for Reecipe CRUD operations*
+* **static** - *Contains static content, like css, js etc.*
+* **templates** - *Contains main template and all modules and components for views.*
+* **user** - *Contains all views, templates, controllers and forms for User accaunt management*
+* **flask-bones/manag.py** runs server, **app/\__init__.py** initializes all needed data/extensions. **app/config.py** contains app configuration.
+* **requirements.txt** contains all library requirements for project. (It is important to not change versions)
 
-    ```bash
-    from app.extensions import cache
+Content is generated from index.html, uses main.html layout.
 
-    # cache something
-    cache.set('some_key', 'some_value')
+## Built With
 
-    # fetch it later
-    cache.get('some_key')
-    ```
+Project built with flask-bones
 
-2. Email delivery
+## Future plans
 
-    ```bash
-    from app.extensions import mail
-    from flask_mail import Message
+Integrate multiple projects into this page.
 
-    # build an email
-    msg = Message('User Registration', sender='admin@flask-bones.com', recipients=[user.email])
-    msg.body = render_template('mail/registration.mail', user=user, token=token)
+## Authors
 
-    # send
-    mail.send(msg)
-    ```
+* **Jānis Tidriķis** - *Initial work*
 
-3. Asynchronous job scheduling with Celery & Redis
+## License
 
-    ```bash
-    from app.extensions import celery
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/janist7/recipe-website/blob/master/flask-bones/LICENSE) file for details
 
-    # define a job
-    @celery.task                                                                     
-    def send_email(msg):                                                             
-        mail.send(msg) 
+## Acknowledgments and Thanks
 
-    # queue job
-    send_email.delay(msg)
-    ```
-
-4. Stupid simple user management
-
-    ```bash
-    from app.extensions import login_user, logout_user, login_required
-
-    # login user
-    login_user(user)
-
-    # you now have a global proxy for the user
-    current_user.is_authenticated
-
-    # secure endpoints with a decorator
-    @login_required
-
-    # log out user
-    logout_user()
-    ```
-
-5. Password security that can keep up with Moores Law
-
-    ```bash
-    from app.extensions import bcrypt
-
-    # hash password
-    pw_hash = bcrypt.generate_password_hash('password')
-
-    # validate password
-    bcrypt.check_password_hash(pw_hash, 'password')
-    ```
-
-6. Easily swap between multiple application configurations
-
-    ```bash
-    from app.config import dev_config, test_config
-    app = Flask(__name__)
-
-    class dev_config():
-        DEBUG = True
-
-    class test_config():
-        TESTING = True
-
-    # configure for testing
-    app.config.from_object(test_config)
-
-    # configure for development
-    app.config.from_object(dev_config)
-    ```
-
-7. Form validation & CSRF protection with WTForms
-
-    ```bash
-    # place a csrf token on a form
-    {{ form.csrf_token }}
-
-    # then validate
-    form.validate_on_submit()
-    ```
-
-8. Scale with Blueprints
-
-    ```bash
-    # app/user/__init__.py
-    user = Blueprint('user', __name__, template_folder='templates')
-
-    # app/__init__.py
-    app = Flask(__name__)
-    app.register_blueprint(user, url_prefix='/user')
-    ```
-
-9. Automated tests
-
-    ```bash
-    # run the test suite
-    python tests.py
-    ```
-
-10.  Use any relational database using the SQLAlchemy ORM
-
-    ```bash
-    from app.user.models import User
-
-    # fetch user by id
-    user = User.get_by_id(id)
-
-    # save current state of user
-    user.update()
-
-    # fetch a paginated set of users
-    users = User.query.paginate(page, 50)
-    ```
-
-11. Merge and compress your javascripts and stylesheets
-
-    ```bash
-    # create a bundle of assets
-    js = Bundle(
-        'js/jquery.js',
-        'js/bootstrap.min.js',
-        filters='jsmin',
-        output='gen/packed.js'
-    )
-    ```
-
-    ```bash
-    # serve up a single minified file
-    {% assets "js_all" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    ```
-
-12. Version your database schema
-
-    ```bash
-    # Display the current revision
-    $ dcr app python manage.py db current
-    1fb7c6da302 (head)
-
-    # Create a new migration
-    $ dcr app python manage.py db revision
-
-    # Upgrade the database to a later version
-    $ dcr app python manage.py db upgrade
-    ```
-
-13. Internationalize the application for other languages (i18n)
-
-    ```bash
-    # Extract strings from source and compile a catalog (.pot)
-    $ pybabel extract -F babel.cfg -o i18n/messages.pot .
-
-    # Create a new resource (.po) for German translators
-    $ pybabel init -i i81n/messages.pot -d i18n -l de
-
-    # Compile translations (.mo)
-    $ pybabel compile -d i18n
-
-    # Merge changes into resource files
-    $ pybabel update -i i18n/messages.pot -d i18n
-    ```
+Thanks to Billie Thompson for providing a nice readme [template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
+Thanks to Corey Burmeister for making a [flask mvc](https://github.com/cburmeister/flask-bones) base/example.
