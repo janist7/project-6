@@ -26,9 +26,11 @@ export MAIL_PASSWORD= _______ > /dev/null
 ```
 Last 2 rows are empty as they require a real gmail adress with a app password.
 
-Postgresql database password needs to be set with ```sudo -u postgres psql``` then ```\password postgres``` to postgres
 
 ## Instalation and usage
+
+Cd to ```$ cd /vagrant/*/``` when connected with ```vagrant ssh```.
+Postgresql database password needs to be set with ```sudo -u postgres psql``` then ```\password postgres``` to postgres
 
 1. Setup database and seed with test data:
 
