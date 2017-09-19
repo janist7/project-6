@@ -1,5 +1,6 @@
-apt-get update
-apt-get upgrade
+apt-add-repository ppa:brightbox/ruby-ng -y
+apt-get update -y
+apt-get upgrade -y
 apt-get -qqy install memcached
 apt-get -qqy install redis-server
 apt-get -qqy install make
@@ -13,6 +14,8 @@ apt-get -qqy install libpq-dev
 apt-get -qqy install python-dev
 apt-get -qqy install nodejs
 apt-get -qqy install npm
+apt-get -qqy  install build-essential
+apt-get -qqy  install -y ruby2.4.2 ruby2.4.2-dev libsqlite3-dev
 npm install bower -g
 #apt-get -qqy install python3
 #apt-get -qqy install python3-pip
@@ -33,11 +36,10 @@ pip2 install flask-sqlalchemy
 pip2 install psycopg2
 pip2 install bleach
 pip2 install requests
-apt-add-repository ppa:brightbox/ruby-ng
-apt-get install -y ruby2.3 ruby2.3-dev libsqlite3-dev
-gem install mailcatcher
 cd /vagrant/*/
+apt-get -qqy install language-pack-UTF-8
 ln -s /usr/bin/nodejs /usr/bin/node
+sudo gem install mailcatcher
 make init
 make assets
 make clean
