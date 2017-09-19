@@ -41,7 +41,7 @@ class RegisterUserForm(UserForm):
         self.user = None
 
     def validate(self):
-        rv = FlaskFor.validate(self)
+        rv = FlaskForm.validate(self)
         if not rv:
             return False
 
