@@ -12,7 +12,7 @@ Requires a client secrets file at flask-bones/client_secrets.json. And changes t
 Requires .env file at flask-bones/.env with contents:
 ```
 export DATABASE_URL=postgresql://$USER@localhost/flask_bones > /dev/null
-export SERVER_NAME=localhost:5000 > /dev/null
+export SERVER_NAME=localhost:8000 > /dev/null
 export MAILCATCHER_PORT_1025_TCP_ADDR=0.0.0.0 > /dev/null
 export MAILCATCHER_PORT_1025_TCP_PORT=1025 > /dev/null
 export REDIS_PORT_6379_TCP_ADDR=0.0.0.0 > /dev/null
