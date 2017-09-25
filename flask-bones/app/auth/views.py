@@ -76,8 +76,7 @@ def logout():
 def register():
     form = RegisterUserForm()
     if form.validate_on_submit():
-        user = controller.createNewUser(form.data['username'], form.data['email'],
-                                        form.data['password'], request.remote_addr)
+        user = controller.createNewUser(form.data['username'],             form.data['email'], form.data['password'], request.remote_addr)
         s = URLSafeSerializer(current_app.secret_key)
         token = s.dumps(user.id)
         send_registration_email.delay(user, token)
