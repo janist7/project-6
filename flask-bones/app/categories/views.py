@@ -43,14 +43,17 @@ def editCategory(category_id):
         form = EditCategory()
     except:
         abort(500)
-    if form.validate_on_submit():
-        if form.data['name']:
-            controller.updateCategory(editedCategory, form.data['name'])
-            babel_flash_message('Category "{data}" successfully edited', form.data['name'])
-            return redirect(url_for('categories.showCategories'))
+    if current_user == creator:
+        if form.validate_on_submit():
+            if form.data['name']:
+                controller.updateCategory(editedCategory, form.data['name'])
+                babel_flash_message('Category "{data}" successfully edited', form.data['name'])
+                return redirect(url_for('categories.showCategories'))
+        else:
+            return render_template('forms/editCategory.html', category=editedCategory,
+                                   creator=creator, category_id=category_id, form=form)
     else:
-        return render_template('forms/editCategory.html', category=editedCategory,
-                               creator=creator, category_id=category_id, form=form)
+        abort(404)
 
 
 # Delete a restaurant
@@ -66,10 +69,13 @@ def deleteCategory(category_id):
         form = DeleteCategory()
     except:
         abort(500)
-    if form.validate_on_submit():
-        controller.deleteCategory(categoryToDelete, category_id)
-        babel_flash_message('Category "{data}" successfully deleted', categoryToDelete.name)
-        return redirect(url_for('categories.showCategories', category_id=category_id))
+    if current_user == creator:
+        if form.validate_on_submit():
+            controller.deleteCategory(categoryToDelete, category_id)
+            babel_flash_message('Category "{data}" successfully deleted', categoryToDelete.name)
+            return redirect(url_for('categories.showCategories', category_id=category_id))
+        else:
+            return render_template('forms/deleteCategory.html', category=categoryToDelete,
+                                   creator=creator, category_id=category_id, form=form)
     else:
-        return render_template('forms/deleteCategory.html', category=categoryToDelete,
-                               creator=creator, category_id=category_id, form=form)
+        abort(404)

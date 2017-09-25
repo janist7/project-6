@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block body %}
-{% if current_user.is_authenticated and current_user == creator %}
         <form method="POST" action="{{ request.url }}">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -32,7 +31,6 @@
                 </div>
             </div>
         </form>
-{% endif %}
 {% endblock %}
 
 {% block footer %}

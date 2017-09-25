@@ -5,6 +5,7 @@ from flask import (
 )
 from flask_babel import gettext
 from flask_login import login_required
+from flask_login import current_user
 from app.utils import babel_flash_message
 from .forms import NewRecipe, EditRecipe, DeleteRecipe
 from ..recipes import recipes, controller
@@ -35,14 +36,17 @@ def newRecipe(category_id):
         form = NewRecipe()
     except:
         abort(500)
-    if form.validate_on_submit():
-        controller.createNewRecipe(form.data['name'], form.data['description'],
-                                   "test", category_id, category.user_id)
-        babel_flash_message('Recipe "{data}" successfully created', form.data['name'])
-        return redirect(url_for('recipes.showRecipe', category_id=category_id))
+    if current_user == creator:
+        if form.validate_on_submit():
+            controller.createNewRecipe(form.data['name'], form.data['description'],
+                                       "test", category_id, category.user_id)
+            babel_flash_message('Recipe "{data}" successfully created', form.data['name'])
+            return redirect(url_for('recipes.showRecipe', category_id=category_id))
+        else:
+            return render_template('forms/newRecipe.html', category_id=category_id,
+                                   creator=creator, form=form)
     else:
-        return render_template('forms/newRecipe.html', category_id=category_id,
-                               creator=creator, form=form)
+        abort(404)
 
 
 @recipes.route('/category/<int:category_id>/recipe/<int:recipe_id>/edit', methods=['GET', 'POST'])
@@ -58,13 +62,16 @@ def editRecipe(category_id, recipe_id):
         form = EditRecipe()
     except:
         abort(500)
-    if form.validate_on_submit():
-        controller.updateRecipe(editedRecipe, form.data['name'], form.data['description'])
-        babel_flash_message('Recipe "{data}" successfully edited', form.data['name'])
-        return redirect(url_for('recipes.showRecipe', category_id=category_id))
+    if current_user == creator:
+        if form.validate_on_submit():
+            controller.updateRecipe(editedRecipe, form.data['name'], form.data['description'])
+            babel_flash_message('Recipe "{data}" successfully edited', form.data['name'])
+            return redirect(url_for('recipes.showRecipe', category_id=category_id))
+        else:
+            return render_template('forms/editRecipe.html', category_id=category_id,
+                                   recipe_id=recipe_id, recipe=editedRecipe, creator=creator, form=form)
     else:
-        return render_template('forms/editRecipe.html', category_id=category_id,
-                               recipe_id=recipe_id, recipe=editedRecipe, creator=creator, form=form)
+        abort(404)
 
 
 # Delete a restaurant
@@ -81,10 +88,13 @@ def deleteRecipe(category_id, recipe_id):
         form = DeleteRecipe()
     except:
         abort(500)
-    if form.validate_on_submit():
-        controller.deleteRecipe(recipeToDelete)
-        babel_flash_message('Recipe "{data}" Successfully Deleted', recipeToDelete.name)
-        return redirect(url_for('recipes.showRecipe', category_id=category_id))
+    if current_user == creator:
+        if form.validate_on_submit():
+            controller.deleteRecipe(recipeToDelete)
+            babel_flash_message('Recipe "{data}" Successfully Deleted', recipeToDelete.name)
+            return redirect(url_for('recipes.showRecipe', category_id=category_id))
+        else:
+            return render_template('forms/deleteRecipe.html', recipe=recipeToDelete,
+                                   creator=creator, form=form, category_id=category_id)
     else:
-        return render_template('forms/deleteRecipe.html', recipe=recipeToDelete,
-                               creator=creator, form=form, category_id=category_id)
+        abort(404)

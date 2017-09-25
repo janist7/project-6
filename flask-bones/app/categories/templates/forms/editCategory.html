@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block body %}
-    {% if current_user.is_authenticated and current_user == creator %}
         <form method="POST" action="{{ request.url }}">
             {{ form.csrf_token }}
             <div class="panel panel-default">
@@ -31,7 +30,6 @@
                 </div>
             </div>
         </form>
-    {% endif %}
 {% endblock %}
 
 {% block footer %}
