@@ -21,11 +21,6 @@ apt-get -qqy install python
 apt-get -qqy install python-pip
 npm install bower -g
 gem install -q mailcatcher
-#apt-get -qqy install python3
-#apt-get -qqy install python3-pip
-#pip3 install --upgrade pip
-#pip3 install flask packaging oauth2client redis passlib flask-httpauth
-#pip3 install sqlalchemy flask-sqlalchemy psycopg2 bleach requests
 pip2 install --upgrade pip
 pip2 install flask
 pip2 install packaging
