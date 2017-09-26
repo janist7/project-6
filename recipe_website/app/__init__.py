@@ -1,17 +1,17 @@
 from flask import Flask, g, render_template, request, redirect, url_for
-from database import db
-from extensions import (
+from app.database import db
+from app.extensions import (
     lm, api, travis, mail, heroku, bcrypt, celery, babel, csrf
 )
-from assets import assets
-import utils
-import config
-from user import user
-from categories import categories
-from recipes import recipes
-from auth import auth
-from categories.models import Category
-from recipes.models import Recipe
+from app.assets import assets
+import app.utils as utils
+from app import config
+from app.user import user
+from app.categories import categories
+from app.recipes import recipes
+from app.auth import auth
+from app.categories.models import Category
+from app.recipes.models import Recipe
 import time
 import sys
 import os.path
