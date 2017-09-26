@@ -1,5 +1,5 @@
 from flask import abort
-from app.user.models import User
+from user.models import User
 
 
 def createNewUser(name, email, password, remote_addr):
