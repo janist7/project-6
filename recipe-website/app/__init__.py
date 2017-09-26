@@ -125,3 +125,7 @@ def enable_api_endpoints(enabled=False):
     if enabled is True:
         api.create_api(Category, methods=['GET'])
         api.create_api(Recipe, methods=['GET'])
+
+if __name__ == '__main__':
+    create_app(config=config.dev_config)
+    app.run()

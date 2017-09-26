@@ -9,6 +9,8 @@ apt-get -qqy install unzip
 apt-get -qqy install postgresql
 apt-get -qqy install pgadmin3
 apt-get -qqy install python-psycopg2
+apt-get -qqy install apache2
+apt-get -qqy install libapache2-mod-wsgi
 apt-get -qqy install libpq-dev
 apt-get -qqy install python-dev
 apt-get -qqy install nodejs
