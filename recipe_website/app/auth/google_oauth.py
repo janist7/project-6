@@ -20,7 +20,7 @@ import requests
 import sys
 
 GOOGLE_CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open('/var/www/html/sites/recipe_website/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipes Website"
 
 
