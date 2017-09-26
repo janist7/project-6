@@ -6,7 +6,7 @@ from flask import (
 from flask_babel import gettext
 from flask_login import login_required
 from flask_login import current_user
-from utils import babel_flash_message
+from app.utils import babel_flash_message
 from .forms import NewRecipe, EditRecipe, DeleteRecipe
 from ..recipes import recipes, controller
 

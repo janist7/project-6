@@ -7,13 +7,13 @@ from flask_babel import gettext
 from flask_login import login_user, login_required, logout_user
 from flask import session as login_session
 from itsdangerous import URLSafeSerializer, BadSignature
-from extensions import lm
-from tasks import send_registration_email
-from user.models import User
-from user.forms import RegisterUserForm
+from app.extensions import lm
+from app.tasks import send_registration_email
+from app.user.models import User
+from app.user.forms import RegisterUserForm
 from .forms import LoginForm
 from ..auth import auth, controller
-from utils import babel_flash_message
+from app.utils import babel_flash_message
 import httplib2
 
 # Probably should be server side as cookies are not that safe
