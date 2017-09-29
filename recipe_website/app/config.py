@@ -6,21 +6,21 @@ class base_config(object):
     """Default configuration options."""
     SITE_NAME = 'Recipe Website'
 
-    SERVER_NAME = "18.194.69.8:80"
+    SERVER_NAME = "localhost:8000"
 
-    MAIL_SERVER = "18.194.69.8"
+    MAIL_SERVER = "0.0.0.0"
     MAIL_PORT = 1025
 
-    REDIS_HOST = "18.194.69.8"
+    REDIS_HOST = "0.0.0.0"
     REDIS_PORT = "6379"
 
     BROKER_URL = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)
     BROKER_BACKEND = BROKER_URL
 
-    CACHE_HOST = "18.194.69.8"
+    CACHE_HOST = "0.0.0.0"
     CACHE_PORT = "11211"
 
-    POSTGRES_HOST = "18.194.69.8"
+    POSTGRES_HOST = "0.0.0.0"
     POSTGRES_PORT = "5432"
     POSTGRES_USER = os.environ.get('DB_ENV_USER', 'postgres')
     POSTGRES_PASS = os.environ.get('DB_ENV_PASS', 'postgres')
@@ -48,8 +48,14 @@ class base_config(object):
     WTF_CSRF_METHODS = {'POST', 'PUT', 'PATCH', 'DELETE'}
 
 
-# Config used for this project
 class dev_config(base_config):
+    """Development configuration options."""
+    DEBUG = True
+    ASSETS_DEBUG = True
+    WTF_CSRF_ENABLED = False
+
+
+class prod_config(base_config):
     """Development configuration options."""
     DEBUG = True
     ASSETS_DEBUG = True

@@ -15,6 +15,10 @@ apt-get -qqy install libpq-dev
 apt-get -qqy install python-dev
 apt-get -qqy install nodejs
 apt-get -qqy install npm
+sudo apt-get install libffi-dev
+sudo apt-get install libssl-dev
+sudo apt-get install python3
+sudo apt-get install python3-pip
 apt-get -qqy  install build-essential
 apt-add-repository ppa:brightbox/ruby-ng -y
 apt-get -qqy update
@@ -24,17 +28,6 @@ apt-get -qqy install python-pip
 npm install bower -g
 gem install -q mailcatcher
 pip2 install --upgrade pip
-pip2 install flask
-pip2 install packaging
-pip2 install oauth2client
-pip2 install redis
-pip2 install passlib
-pip2 install flask-httpauth
-pip2 install sqlalchemy
-pip2 install flask-sqlalchemy
-pip2 install psycopg2
-pip2 install bleach
-pip2 install requests
 cd /vagrant/*/
 apt-get -qqy install language-pack-UTF-8
 locale-gen UTF-8

@@ -18,11 +18,9 @@ import httplib2
 import json
 import requests
 import sys
+import os.path
 
-GOOGLE_CLIENT_ID = json.loads(
-    open('/var/www/html/sites/recipe_website/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipes Website"
-
 
 @auth.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -63,7 +61,7 @@ def gconnect():
     if result['issued_to'] != GOOGLE_CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
+        print("Token's client ID does not match app's.")
         response.headers['Content-Type'] = 'application/json'
         return response
 

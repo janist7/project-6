@@ -15,6 +15,10 @@ from app.recipes.models import Recipe
 import time
 import sys
 import os.path
+import json
+import importlib
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 
 # Creates the app
@@ -22,10 +26,9 @@ def create_app(config=config.base_config):
     app = Flask(__name__)
     app.config.from_object(config)
 
-    reload(sys)
-    sys.setdefaultencoding('utf8')
     # Runs all initialization functions
     install_secret_key(app)
+    install_client_secret(app)
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
@@ -43,9 +46,9 @@ def create_app(config=config.base_config):
     # How to use - https://flask-restless.readthedocs.io/en/0.12.0/searchformat.html#searchformat
     enable_api_endpoints(True)
 
-    @babel.localeselector
-    def get_locale():
-        return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
+    # @babel.localeselector
+    # def get_locale():
+    #   return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
 
     @app.before_request
     def before_request():
@@ -113,11 +116,20 @@ def install_secret_key(app, filename='secret_key'):
         app.config['SECRET_KEY'] = open(filename, 'rb').read()
         app.config['WTF_CSRF_SECRET_KEY'] = open(filename, 'rb').read()
     except IOError:
-        print 'Error: No secret key. Create it with:'
+        print('Error: No secret key. Create it with:')
         if not os.path.isdir(os.path.dirname(filename)):
-            print 'mkdir -p', os.path.dirname(filename)
-        print 'head -c 24 /dev/urandom >', filename
-        sys.exit(1)
+            print('mkdir -p', os.path.dirname(filename))
+        print('head -c 24 /dev/urandom >', filename)
+        os._exit(1)
+
+def install_client_secret(app, filename='client_secrets.json'):
+    try:
+        filename = os.path.join(app.instance_path, filename)
+        GOOGLE_CLIENT_ID = json.loads(open(filename, 'r').read())['web']['client_id']
+    except:
+        print('Did not find a client_secrets.json at:')
+        print(os.path.dirname(filename))
+        os._exit(1)
 
 
 # Enables api endpoints, only Get for now
@@ -126,3 +138,9 @@ def enable_api_endpoints(enabled=False):
         api.create_api(Category, methods=['GET'])
         api.create_api(Recipe, methods=['GET'])
 
+application = create_app(config=config.prod_config)
+
+if __name__ == '__main__':
+    install_secret_key(application)
+    install_client_secret(application)
+    application.run("0.0.0.0")
