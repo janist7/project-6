@@ -8,19 +8,19 @@ class base_config(object):
 
     SERVER_NAME = "18.194.69.8:80"
 
-    MAIL_SERVER = "localhost"
+    MAIL_SERVER = "18.194.69.8"
     MAIL_PORT = 1025
 
-    REDIS_HOST = "localhost"
+    REDIS_HOST = "18.194.69.8"
     REDIS_PORT = "6379"
 
     BROKER_URL = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)
     BROKER_BACKEND = BROKER_URL
 
-    CACHE_HOST = "localhost"
+    CACHE_HOST = "18.194.69.8"
     CACHE_PORT = "11211"
 
-    POSTGRES_HOST = "localhost"
+    POSTGRES_HOST = "18.194.69.8"
     POSTGRES_PORT = "5432"
     POSTGRES_USER = os.environ.get('DB_ENV_USER', 'postgres')
     POSTGRES_PASS = os.environ.get('DB_ENV_PASS', 'postgres')
