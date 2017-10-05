@@ -29,16 +29,16 @@ def enable_api_endpoints(enabled=False):
 
 # Creates the app
 def create_app(config=config.base_config):
-    app = Flask(__name__)
-    app.config.from_object(config)
+    application = Flask(__name__)
+    application.config.from_object(config)
 
     # Runs all initialization functions
-    install_secret_key(app)
-    install_client_secret(app)
-    register_extensions(app)
-    register_blueprints(app)
-    register_errorhandlers(app)
-    register_jinja_env(app)
+    install_secret_key(application)
+    install_client_secret(application)
+    register_extensions(application)
+    register_blueprints(application)
+    register_errorhandlers(application)
+    register_jinja_env(application)
 
     # Enables api endpoints example user for all info is:
     # /api/category?q={%22filters%22:[{%22name%22:%22name%22,%22op%22:%22ge%22,%22val%22:%22%22}]}
@@ -56,17 +56,17 @@ def create_app(config=config.base_config):
     # def get_locale():
     #   return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
 
-    @app.before_request
+    @application.before_request
     def before_request():
         g.request_start_time = time.time()
         g.request_time = lambda: '%.5fs' % (time.time() - g.request_start_time)
         g.pjax = 'X-PJAX' in request.headers
 
-    @app.route('/', methods=['GET'])
+    @application.route('/', methods=['GET'])
     def index():
         return redirect(url_for('categories.showCategories'))
 
-    return app
+    return application
 
 
 # Lazy registering off extensions
