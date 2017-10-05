@@ -6,9 +6,9 @@ from flask import (
 from flask_babel import gettext
 from flask_login import login_required
 from flask_login import current_user
-from app.utils import babel_flash_message
+from utils import babel_flash_message
 from .forms import NewCategory, EditCategory, DeleteCategory
-from ..categories import categories, controller
+from categories import categories, controller
 
 
 @categories.route('/categories', methods=['GET'])

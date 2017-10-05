@@ -1,24 +1,30 @@
+import os.path
+import sys
+sys.path.insert(0, os.path.dirname(__file__))
+
 from flask import Flask, g, render_template, request, redirect, url_for
-from app.database import db
-from app.extensions import (
+from database import db
+from extensions import (
     lm, api, travis, mail, heroku, bcrypt, celery, babel, csrf
 )
-from app.assets import assets
-import app.utils as utils
-from app import config
-from app.user import user
-from app.categories import categories
-from app.recipes import recipes
-from app.auth import auth
-from app.categories.models import Category
-from app.recipes.models import Recipe
+from assets import assets
+import utils as utils
+import config
+from user import user
+from categories import categories
+from recipes import recipes
+from auth import auth
+from categories.models import Category
+from recipes.models import Recipe
 import time
-import sys
-import os.path
 import json
 import importlib
 
-sys.path.insert(0, os.path.dirname(__file__))
+# Enables api endpoints, only Get for now
+def enable_api_endpoints(enabled=False):
+    if enabled is True:
+        api.create_api(Category, methods=['GET'])
+        api.create_api(Recipe, methods=['GET'])
 
 
 # Creates the app
@@ -80,7 +86,7 @@ def register_extensions(app):
 
 # Register all blueprints
 def register_blueprints(app):
-    app.register_blueprint(user, url_prefix='/user')
+    app.register_blueprint(user)
     app.register_blueprint(auth)
     app.register_blueprint(categories)
     app.register_blueprint(recipes)
@@ -131,14 +137,8 @@ def install_client_secret(app, filename='client_secrets.json'):
         print(os.path.dirname(filename))
         os._exit(1)
 
-
-# Enables api endpoints, only Get for now
-def enable_api_endpoints(enabled=False):
-    if enabled is True:
-        api.create_api(Category, methods=['GET'])
-        api.create_api(Recipe, methods=['GET'])
-
 application = create_app(config=config.prod_config)
+
 
 if __name__ == '__main__':
     install_secret_key(application)

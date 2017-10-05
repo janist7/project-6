@@ -3,7 +3,7 @@ from flask_babel import gettext
 from wtforms import StringField
 from wtforms.validators import DataRequired
 
-from app.categories.models import Category
+from .models import Category
 
 
 class NewCategory(FlaskForm):

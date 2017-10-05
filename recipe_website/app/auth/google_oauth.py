@@ -8,12 +8,12 @@ from flask import session as login_session
 from flask_babel import gettext
 from flask_login import login_user, login_required, logout_user
 from itsdangerous import URLSafeSerializer, BadSignature
-from app.user.models import User
-from app.user.forms import RegisterUserForm
+from user.models import User
+from user.forms import RegisterUserForm
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from .forms import LoginForm
-from ..auth import auth
+from auth import auth
 import httplib2
 import json
 import requests
@@ -22,7 +22,7 @@ import os.path
 
 APPLICATION_NAME = "Recipes Website"
 
-@auth.route('/gconnect', methods=['POST'])
+@auth.route('/gconnect', endpoint='gconnect', methods=['POST'])
 def gconnect():
     code = request.data
 

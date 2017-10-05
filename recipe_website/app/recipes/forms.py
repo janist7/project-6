@@ -3,7 +3,7 @@ from flask_babel import gettext
 from wtforms import StringField
 from wtforms.validators import DataRequired
 
-from app.recipes.models import Recipe
+from .models import Recipe
 
 
 class NewRecipe(FlaskForm):

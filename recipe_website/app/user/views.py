@@ -3,15 +3,15 @@
 from flask import request, redirect, url_for, render_template, flash, g, abort
 from flask_babel import gettext
 from flask_login import login_required
-from app.user.models import User
-from app.user.forms import EditUserForm
+from .models import User
+from .forms import EditUserForm
 from flask_login import current_user
-from app.utils import babel_flash_message
-from app.database import DataTable
-from ..user import user, controller
+from utils import babel_flash_message
+from database import DataTable
+from user import user, controller
 
 
-@user.route('/list', methods=['GET', 'POST'])
+@user.route('/list', endpoint='list', methods=['GET', 'POST'])
 @login_required
 def list():
     if current_user.is_admin:
@@ -41,7 +41,7 @@ def list():
         abort(404)
 
 
-@user.route('/edit/<int:id>', methods=['GET', 'POST'])
+@user.route('/edit/<int:id>', endpoint='edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
     if current_user.is_admin:
@@ -56,7 +56,7 @@ def edit(id):
         abort(404)
 
 
-@user.route('/delete/<int:id>', methods=['GET'])
+@user.route('/delete/<int:id>', endpoint='delete', methods=['GET'])
 @login_required
 def delete(id):
     if current_user.is_admin:

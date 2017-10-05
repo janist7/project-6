@@ -6,7 +6,7 @@ class base_config(object):
     """Default configuration options."""
     SITE_NAME = 'Recipe Website'
 
-    SERVER_NAME = "localhost:8000"
+    SERVER_NAME = "localhost:8080"
 
     MAIL_SERVER = "0.0.0.0"
     MAIL_PORT = 1025

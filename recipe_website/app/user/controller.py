@@ -1,4 +1,4 @@
-from app.user.models import User
+from .models import User
 
 # Returns user info
 def getUser(id):

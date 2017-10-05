@@ -1,4 +1,4 @@
-from app.database import db, CRUDMixin
+from database import db, CRUDMixin
 from sqlalchemy import asc
 import datetime
 
