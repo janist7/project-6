@@ -26,47 +26,6 @@ def enable_api_endpoints(enabled=False):
         api.create_api(Category, methods=['GET'])
         api.create_api(Recipe, methods=['GET'])
 
-application = Flask(__name__)
-application.config.from_object(config.base_config)
-
-# Runs all initialization functions
-install_secret_key(application)
-install_client_secret(application)
-register_extensions(application)
-register_blueprints(application)
-register_errorhandlers(application)
-register_jinja_env(application)
-
-    # Enables api endpoints example user for all info is:
-    # /api/category?q={%22filters%22:[{%22name%22:%22name%22,%22op%22:%22ge%22,%22val%22:%22%22}]}
-    #
-    # Getting just one category is:
-    # /api/category/19, same for recipe (api/{Category, Recipe}}/id) etc.
-    #
-    # Example for all Recipes in category 22:
-    # /api/recipe?q={%22filters%22:[{%22name%22:%22category_id%22,%22op%22:%22==%22,%22val%22:%2219%22}]}
-    #
-    # How to use - https://flask-restless.readthedocs.io/en/0.12.0/searchformat.html#searchformat
-enable_api_endpoints(True)
-
-    # @babel.localeselector
-    # def get_locale():
-    #   return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
-
-
-@application.before_request
-def before_request():
-    g.request_start_time = time.time()
-    g.request_time = lambda: '%.5fs' % (time.time() - g.request_start_time)
-    g.pjax = 'X-PJAX' in request.headers
-
-
-@application.route('/', methods=['GET'])
-def index():
-    return redirect(url_for('categories.showCategories'))
-
-
-
 # Lazy registering off extensions
 def register_extensions(app):
     heroku.init_app(app)
@@ -134,6 +93,46 @@ def install_client_secret(app, filename='client_secrets.json'):
         print('Did not find a client_secrets.json at:')
         print(os.path.dirname(filename))
         os._exit(1)
+
+application = Flask(__name__)
+application.config.from_object(config.base_config)
+
+# Runs all initialization functions
+install_secret_key(application)
+install_client_secret(application)
+register_extensions(application)
+register_blueprints(application)
+register_errorhandlers(application)
+register_jinja_env(application)
+
+    # Enables api endpoints example user for all info is:
+    # /api/category?q={%22filters%22:[{%22name%22:%22name%22,%22op%22:%22ge%22,%22val%22:%22%22}]}
+    #
+    # Getting just one category is:
+    # /api/category/19, same for recipe (api/{Category, Recipe}}/id) etc.
+    #
+    # Example for all Recipes in category 22:
+    # /api/recipe?q={%22filters%22:[{%22name%22:%22category_id%22,%22op%22:%22==%22,%22val%22:%2219%22}]}
+    #
+    # How to use - https://flask-restless.readthedocs.io/en/0.12.0/searchformat.html#searchformat
+enable_api_endpoints(True)
+
+    # @babel.localeselector
+    # def get_locale():
+    #   return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
+
+
+@application.before_request
+def before_request():
+    g.request_start_time = time.time()
+    g.request_time = lambda: '%.5fs' % (time.time() - g.request_start_time)
+    g.pjax = 'X-PJAX' in request.headers
+
+
+@application.route('/', methods=['GET'])
+def index():
+    return redirect(url_for('categories.showCategories'))
+
 
 if __name__ == '__main__':
     install_secret_key(application)
