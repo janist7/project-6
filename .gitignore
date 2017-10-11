@@ -3,6 +3,7 @@ instance/
 .DS_Store
 .coverage
 .env
+env/
 gen/
 .webassets-cache
 bower_components/

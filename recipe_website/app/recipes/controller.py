@@ -1,8 +1,8 @@
 from flask import abort
 from sqlalchemy import asc
-from categories.models import Category
+from app.categories.models import Category
 from .models import Recipe
-from user.models import User
+from app.user.models import User
 
 
 # Returns 1 Recipe

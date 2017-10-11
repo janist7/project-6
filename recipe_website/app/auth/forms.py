@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 from sqlalchemy import and_
 
-from user.models import User
+from app.user.models import User
 
 
 class LoginForm(FlaskForm):

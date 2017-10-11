@@ -3,12 +3,12 @@
 from flask import request, redirect, url_for, render_template, flash, g, abort
 from flask_babel import gettext
 from flask_login import login_required
-from .models import User
-from .forms import EditUserForm
+from app.user.models import User
+from app.user.forms import EditUserForm
 from flask_login import current_user
-from utils import babel_flash_message
-from database import DataTable
-from user import user, controller
+from app.utils import babel_flash_message
+from app.database import DataTable
+from ..user import user, controller
 
 
 @user.route('/list', endpoint='list', methods=['GET', 'POST'])

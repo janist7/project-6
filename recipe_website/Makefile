@@ -1,7 +1,7 @@
 .PHONY: init clean celery assets server db
 
 init:
-	pip3 install -r requirements.txt
+	env/bin/pip3.4 install -r requirements.txt
 
 clean:
 	find . -name '*.pyc' -delete

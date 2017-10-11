@@ -1,9 +1,10 @@
 #!/usr/bin/python
+
+activate_this = '/var/www/html/sites/recipe_website/env/bin/activate_this.py'
+with open(activate_this) as file_:
+    exec(file_.read(), dict(__file__=activate_this))
+
 import sys
-from app import create_app, config
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.append('/var/www/html/sites/recipe_website')
 
-application = create_app(config=config.prod_config)
-
-if __name__ == '__main__':
-    application.run("0.0.0.0")
+from app import app as application

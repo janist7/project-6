@@ -1,12 +1,13 @@
 import os
 import json
 
-
 class base_config(object):
     """Default configuration options."""
-    SITE_NAME = 'Recipe Website'
+    SITE_NAME = 'Recipe Website Dev'
+    SERVER_ADDRESS = "localhost"
+    SERVER_PORT = "8080"
 
-    SERVER_NAME = "localhost:8080"
+    SERVER_NAME = '{}:{}'.format(SERVER_ADDRESS, SERVER_PORT)
 
     MAIL_SERVER = "0.0.0.0"
     MAIL_PORT = 1025
@@ -40,7 +41,7 @@ class base_config(object):
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME = "janis.tidrikis@delfi.lv"
-    MAIL_PASSWORD = "test"
+    MAIL_PASSWORD = "Test"
 
     SUPPORTED_LOCALES = ['en']
     WTF_CSRF_CHECK_DEFAULT = True

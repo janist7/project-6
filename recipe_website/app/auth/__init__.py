@@ -2,4 +2,4 @@ from flask import Blueprint
 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
-from auth import views, google_oauth
+from app.auth import views, google_oauth

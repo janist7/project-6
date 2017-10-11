@@ -1,6 +1,6 @@
 from flask_login import UserMixin
-from extensions import cache, bcrypt
-from database import db, CRUDMixin
+from app.extensions import cache, bcrypt
+from app.database import db, CRUDMixin
 import datetime
 
 
@@ -8,7 +8,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(128), nullable=False, unique=True)
-    pw_hash = db.Column(db.String(60))
+    pw_hash = db.Column(db.Binary(60))
     created_ts = db.Column(db.DateTime(timezone=True),
                            server_default=db.func.current_timestamp(),)
     updated_ts = db.Column(db.DateTime(timezone=True),

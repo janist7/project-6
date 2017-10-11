@@ -1,4 +1,4 @@
-from database import db, CRUDMixin
+from app.database import db, CRUDMixin
 import datetime
 
 

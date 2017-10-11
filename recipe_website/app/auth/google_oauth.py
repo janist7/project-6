@@ -8,19 +8,23 @@ from flask import session as login_session
 from flask_babel import gettext
 from flask_login import login_user, login_required, logout_user
 from itsdangerous import URLSafeSerializer, BadSignature
-from user.models import User
-from user.forms import RegisterUserForm
+from app.user.models import User
+from app.user.forms import RegisterUserForm
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
-from .forms import LoginForm
-from auth import auth
+from app.auth.forms import LoginForm
+from app.auth import auth
+from app import *
 import httplib2
 import json
 import requests
 import sys
 import os.path
 
+
 APPLICATION_NAME = "Recipes Website"
+client_secrets = os.path.join('/var/www/html/sites/recipe_website/instance/', 'client_secrets.json')
+GOOGLE_CLIENT_ID = json.loads(open(client_secrets, 'r').read())['web']['client_id']
 
 @auth.route('/gconnect', endpoint='gconnect', methods=['POST'])
 def gconnect():
@@ -28,7 +32,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets(client_secrets, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -42,7 +46,8 @@ def gconnect():
     url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
            % access_token)
     h = httplib2.Http()
-    result = json.loads(h.request(url, 'GET')[1])
+    response = h.request(url, 'GET')[1].decode("utf-8", "strict")
+    result = json.loads(response)
     # If there was an error in the access token info, abort.
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)

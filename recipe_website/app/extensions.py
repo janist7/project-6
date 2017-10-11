@@ -21,9 +21,6 @@ cache = SimpleCache()
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
-from celery import Celery
-celery = Celery()
-
 from flask_assets import Environment
 assets = Environment()
 
@@ -32,3 +29,6 @@ babel = Babel()
 
 from flask_wtf.csrf import CSRFProtect
 csrf = CSRFProtect()
+
+from celery import Celery
+celery = Celery()
